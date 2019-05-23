@@ -45,18 +45,17 @@ public class Board implements Serializable {
     @Column
     private LocalDateTime updatedDate;
 
-    @Column
-    private Long accountId;
-
+    @OneToOne
+    private Account account;
 
     @Builder
-    public Board(String title, String subTitle, String content, BoardType boardType, LocalDateTime createdDate, LocalDateTime updatedDate, Long accountId) {
+    public Board(String title, String subTitle, String content, BoardType boardType, LocalDateTime createdDate, LocalDateTime updatedDate, Account account) {
         this.title = title;
         this.subTitle = subTitle;
         this.content = content;
         this.boardType = boardType;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.accountId = accountId;
+        this.account = account;
     }
 }

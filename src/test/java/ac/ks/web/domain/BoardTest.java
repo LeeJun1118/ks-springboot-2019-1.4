@@ -1,5 +1,6 @@
 package ac.ks.web.domain;
 
+import ac.ks.web.repository.AccountRepository;
 import ac.ks.web.repository.BoardRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,9 @@ public class BoardTest {
     @Autowired
     private BoardRepository boardRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     private Board savedBoard;
 
     @Before
@@ -31,6 +35,7 @@ public class BoardTest {
                 .content("내용1")
                 .createdDate(LocalDateTime.now())
                 .updatedDate(LocalDateTime.now())
+                .account(accountRepository.save(Account.builder().name("홍길동").build()))
                 .build());
 
         boardRepository.save(Board.builder()
@@ -93,6 +98,12 @@ public class BoardTest {
         Board findTitleBoard = boardRepository.findFirstByTitle("제목1");
 
         assertThat(findTitleBoard).isNull();
+    }
+
+    @Test
+    public void testAccountFK(){
+        Board findTitleBoard = boardRepository.findFirstByTitle("제목1");
+        assertThat(findTitleBoard.getAccount().getName()).isEqualTo("홍길동");
     }
     
 }
